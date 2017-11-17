@@ -1,7 +1,6 @@
 package task2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -22,12 +21,15 @@ public class Solution {
       int edges = in.nextInt();
       marked = new boolean[vertices];
       edgeTo = new int[vertices];
+      for (int i1 = 0; i1 < edgeTo.length; i1++) {
+        edgeTo[i1] = -1;
+      }
       int s;
 
       Graph graph = new Graph(vertices);
 
       for (int j = 0; j < edges; j++) {
-        Edge edge = new Edge(in.nextInt(), in.nextInt());
+        Edge edge = new Edge(in.nextInt() - 1, in.nextInt() - 1);
         graph.addEdge(edge);
       }
       s = in.nextInt() - 1;
@@ -35,6 +37,7 @@ public class Solution {
       bfs(graph, s);
 
       pathTo(s);
+
     }
   }
 
@@ -43,12 +46,12 @@ public class Solution {
       if (i != start) {
         int sum = 0;
         int cur = edgeTo[i];
-        if (cur == 0) {
+        if (cur == -1) {
           System.out.print("-1 ");
         } else {
-          while (cur != 0) {
+          while (cur != -1) {
             sum += 6;
-            cur = edgeTo[cur - 1];
+            cur = edgeTo[cur];
           }
           System.out.print(sum + " ");
         }
@@ -68,7 +71,7 @@ public class Solution {
       for (int w : g.adj(v))
         if (!marked[w])
         {
-          edgeTo[w] = v + 1;
+          edgeTo[w] = v;
           marked[w] = true;
           queue.add(w);
         }
@@ -85,7 +88,8 @@ public class Solution {
     }
 
     public void addEdge(Edge edge) {
-      adjList.get(edge.getX() - 1).add(edge.getY() - 1);
+//      adjList.get(edge.getX() - 1).add(edge.getY() - 1);
+      adjList.get(edge.getX()).add(edge.getY());
     }
 
     public List<Integer> adj(int x) {
@@ -110,6 +114,5 @@ public class Solution {
       return y;
     }
   }
-
 
 }
