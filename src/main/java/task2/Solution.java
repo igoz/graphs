@@ -37,7 +37,6 @@ public class Solution {
       bfs(graph, s);
 
       pathTo(s);
-
     }
   }
 
@@ -57,7 +56,6 @@ public class Solution {
         }
       }
     }
-
     System.out.println();
   }
 
@@ -88,8 +86,8 @@ public class Solution {
     }
 
     public void addEdge(Edge edge) {
-//      adjList.get(edge.getX() - 1).add(edge.getY() - 1);
       adjList.get(edge.getX()).add(edge.getY());
+      adjList.get(edge.getY()).add(edge.getX());
     }
 
     public List<Integer> adj(int x) {
