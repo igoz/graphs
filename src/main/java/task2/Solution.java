@@ -15,11 +15,11 @@ public class Solution {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int queries = in.nextInt();
-    int vertices = in.nextInt();
-    int edges = in.nextInt();
 
     for (int i = 0; i < queries; i++) {
 
+      int vertices = in.nextInt();
+      int edges = in.nextInt();
       marked = new boolean[vertices];
       edgeTo = new int[vertices];
       int s;
@@ -30,12 +30,32 @@ public class Solution {
         Edge edge = new Edge(in.nextInt(), in.nextInt());
         graph.addEdge(edge);
       }
-      s = in.nextInt();
+      s = in.nextInt() - 1;
 
       bfs(graph, s);
 
-      System.out.println(Arrays.toString(edgeTo));
+      pathTo(s);
     }
+  }
+
+  private static void pathTo(int start) {
+    for (int i = 0; i < edgeTo.length; i++) {
+      if (i != start) {
+        int sum = 0;
+        int cur = edgeTo[i];
+        if (cur == 0) {
+          System.out.print("-1 ");
+        } else {
+          while (cur != 0) {
+            sum += 6;
+            cur = edgeTo[cur - 1];
+          }
+          System.out.print(sum + " ");
+        }
+      }
+    }
+
+    System.out.println();
   }
 
   public static void bfs(Graph g, int s) {
@@ -48,7 +68,7 @@ public class Solution {
       for (int w : g.adj(v))
         if (!marked[w])
         {
-          edgeTo[w] = v;
+          edgeTo[w] = v + 1;
           marked[w] = true;
           queue.add(w);
         }
@@ -69,7 +89,7 @@ public class Solution {
     }
 
     public List<Integer> adj(int x) {
-      return adjList.get(x - 1);
+      return adjList.get(x);
     }
   }
 
